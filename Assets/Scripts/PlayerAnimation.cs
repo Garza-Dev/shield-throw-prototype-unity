@@ -31,6 +31,6 @@ public class PlayerAnimation : MonoBehaviour
 
     private void HandleSpeed()
     {
-        _animator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocity.x));
+        _animator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocity.x)); // Parameter for Player_Idle -> Player_Run transition
     }
 }

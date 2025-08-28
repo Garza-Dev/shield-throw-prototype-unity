@@ -10,25 +10,36 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 6.2f;
+    [SerializeField] private float _moveSpeed = 12f;
 
-    private Rigidbody2D rb;
-    private float moveInput;
-    public float MoveInput => moveInput; // Expose moveInput for PlayerAnimation
+    [Header("Jump")]
+    [Tooltip("The immediate velocity applied when jumping")] public float _jumpPower = 36f;
+
+    private Rigidbody2D _rb;
+    private float _moveInput;
+    public float MoveInput => _moveInput; // Expose moveInput for PlayerAnimation
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        _rb.linearVelocity = new Vector2(_moveInput * _moveSpeed, _rb.linearVelocity.y);
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        moveInput = input.x;
+        _moveInput = input.x;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpPower);
+        }
     }
 }

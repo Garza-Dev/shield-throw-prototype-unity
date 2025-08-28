@@ -439,10 +439,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.001610306
-    width: 1
-    height: 0.9951691
+    x: 0.00087527354
+    y: 0.0015408321
+    width: 0.58118165
+    height: 2.927581
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -688,7 +688,19 @@ MonoBehaviour:
     m_ActionId: 3d737689-5432-4a09-81b7-a4c54b65ee66
     m_ActionName: 'Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1864235658}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 500b9bb6-594d-4c55-8caa-b067cae5c1cf
     m_ActionName: 'Gameplay/Jump[/Keyboard/space]'
   - m_PersistentCalls:
@@ -716,7 +728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2cc4352ec5782489a3303a92a6c0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 12
+  _moveSpeed: 12
+  _jumpPower: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
