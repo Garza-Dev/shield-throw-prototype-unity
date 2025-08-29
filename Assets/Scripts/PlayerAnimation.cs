@@ -7,18 +7,19 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     private PlayerController _player;
-    private Rigidbody2D _rb;
+
+    private bool wasGoingUp;
 
     private void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
-        _rb = _player.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
         HandleSpriteFlip();
-        HandleSpeed();
+        HandleMovementAnimations();
+        HandleJumpAnimations();
     }
 
     private void HandleSpriteFlip()
@@ -29,8 +30,36 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
-    private void HandleSpeed()
+    private void HandleMovementAnimations()
     {
-        _animator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocity.x)); // Parameter for Player_Idle -> Player_Run transition
+        _animator.SetFloat("Speed", Mathf.Abs(_player.MoveInput));
+    }
+
+    private void HandleJumpAnimations()
+    {
+        _animator.SetBool("IsGrounded", _player.IsGrounded);
+        _animator.SetFloat("VerticalVelocity", _player.VerticalVelocity);
+
+        // Detect apex
+        if (_player.VerticalVelocity > 0.1f)
+        {
+            wasGoingUp = true;
+        }
+
+        if (wasGoingUp && _player.VerticalVelocity <= 0.1f && !_player.IsGrounded)
+        {
+            _animator.SetTrigger("Apex"); // new trigger parameter
+            wasGoingUp = false;
+        }
+    }
+
+    public void TriggerJump()
+    {
+        _animator.SetTrigger("Jump");
+    }
+
+    public void PerformJump()
+    {
+        _player.DoJump();
     }
 }
