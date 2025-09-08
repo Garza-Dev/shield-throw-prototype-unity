@@ -470,15 +470,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.0014566643
-    y: 0.0015673981
-    width: 0.9963584
-    height: 0.99686515
+    x: 0.00087489065
+    y: 0
+    width: 0.99737537
+    height: 0.9984592
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.625
+  orthographic size: 6.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -761,7 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 12
-  _jumpPower: 3.75
+  _jumpPower: 7
   _groundCheck: {fileID: 247131818}
   _groundCheckRadius: 0.2
   _groundLayer:

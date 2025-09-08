@@ -17,10 +17,27 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
+        HandleAnimations();
+
         HandleSpriteFlip();
-        HandleMovementAnimations();
-        HandleJumpAnimations();
+        // HandleMovementAnimations();
+        // HandleJumpAnimations();
     }
+
+    /* These methods were added in after watching Night Run Studio animation tutorials */
+
+    void HandleAnimations()
+    {
+        _animator.SetBool("isJumping", _player.VerticalVelocity > 0.1f);
+        _animator.SetBool("IsGrounded", _player.IsGrounded);
+        _animator.SetFloat("yVelocity", _player.VerticalVelocity);
+
+        _animator.SetBool("isIdle", Mathf.Abs(_player.MoveInput) < .1f && _player.IsGrounded);
+        _animator.SetBool("isRunning", Mathf.Abs(_player.MoveInput) > .1f && _player.IsGrounded);
+    }
+
+
+    /**************/
 
     private void HandleSpriteFlip()
     {

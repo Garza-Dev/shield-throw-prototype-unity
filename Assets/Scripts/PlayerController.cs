@@ -51,12 +51,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && IsGrounded)
         {
-            GetComponentInChildren<PlayerAnimation>().TriggerJump();
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpPower);
         }
     }
 
     public void DoJump()
     {
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpPower);
+        
     }
 }
