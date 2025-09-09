@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bf62bf5c52f9e47ae946f2a1c96b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
-  _animator: {fileID: 487628355}
+  animator: {fileID: 487628355}
   _spriteRenderer: {fileID: 487628356}
 --- !u!95 &487628355
 Animator:
@@ -470,15 +470,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00087489065
-    y: 0
-    width: 0.99737537
-    height: 0.9984592
+    x: 0.0010928962
+    y: 0.0018416207
+    width: 0.9967213
+    height: 0.9944751
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.75
+  orthographic size: 8.4375
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

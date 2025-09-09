@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float _moveSpeed = 12f;
+    [SerializeField] public float _moveSpeed = 12f;
 
     [Header("Jump")]
     [Tooltip("The immediate velocity applied when jumping")] 
@@ -22,8 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private float _moveInput;
-    public float MoveInput => _moveInput; // Expose _moveInput for PlayerAnimation
-    public float VerticalVelocity => _rb.linearVelocity.y; // Expose _rb.linearVelocity.y for PlayerAnimation
+    public Vector2 linearVelocity => _rb.linearVelocity; // Expose _rb.linearVelocity for PlayerAnimation
     public bool IsGrounded { get; private set; }
 
     void Awake()
@@ -53,10 +52,5 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpPower);
         }
-    }
-
-    public void DoJump()
-    {
-        
     }
 }
