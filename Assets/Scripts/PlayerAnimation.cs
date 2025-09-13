@@ -20,12 +20,12 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        float speed = Mathf.Abs(rb.linearVelocity.x) / rb._moveSpeed;
+        float speed = Mathf.Abs(rb.linearVelocity.x);
         animator.SetFloat(SpeedHash, speed);
 
         animator.SetBool(IsGroundedHash, rb.IsGrounded);
 
-        animator.SetFloat(VerticalVelocityHash, rb.linearVelocity.y); //Figure out how to stop the jump animation from playing twice.
+        animator.SetFloat(VerticalVelocityHash, rb.linearVelocity.y);
 
         HandleSpriteFlip();
     }

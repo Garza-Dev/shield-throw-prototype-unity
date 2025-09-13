@@ -9,8 +9,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] public float _moveSpeed = 12f;
+    [SerializeField] private PlayerMovmentStats _moveStats;
+    private Vector2 _frameVelocity;
+
+
+
+
+    /* Everything above this is the start of the upgraded movement */
 
     [Header("Jump")]
     [Tooltip("The immediate velocity applied when jumping")] 
@@ -25,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public Vector2 linearVelocity => _rb.linearVelocity; // Expose _rb.linearVelocity for PlayerAnimation
     public bool IsGrounded { get; private set; }
 
+    private float _time;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -33,11 +40,33 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         IsGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+        _time += Time.deltaTime;
     }
 
     void FixedUpdate()
     {
-        _rb.linearVelocity = new Vector2(_moveInput * _moveSpeed, _rb.linearVelocity.y);
+        HandleJump();
+        HandleMovement();
+        HandleGravity();
+
+        ApplyMovement();
+    }
+
+    private void HandleMovement()
+    {
+        if (_moveInput == 0)
+        {
+            // Decelerate
+            var decel = IsGrounded ? _moveStats.GroundDeceleration : _moveStats.AirDeceleration;
+            _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, decel * Time.fixedDeltaTime);
+        }
+        else
+        {
+            // Accelerate toward target speed
+            float targetSpeed = _moveInput * _moveStats.MaxSpeed;
+            _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, targetSpeed, _moveStats.Acceleration * Time.fixedDeltaTime);
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -46,11 +75,59 @@ public class PlayerController : MonoBehaviour
         _moveInput = input.x;
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
+
+    #region Jumping
+
+    private bool _jumpToConsume;
+    private bool _bufferedJumpUsable;
+    private bool _endedJumpEarly;
+    private bool _coyoteUsable;
+    private float _timeJumpWasPressed;
+
+    private void HandleJump()
     {
-        if (context.started && IsGrounded)
+        if (_jumpToConsume && IsGrounded)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpPower);
+            ExecuteJump();
+            _jumpToConsume = false;
         }
     }
+
+    private void ExecuteJump()
+    {
+        _endedJumpEarly = false;
+
+        // Apply jump force
+        _frameVelocity.y = _moveStats.JumpPower;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            // Player pressed jump
+            _jumpToConsume = true;
+        }
+    }
+
+    #endregion
+
+    #region Apply Gravity
+
+    private void HandleGravity()
+    {
+        if (IsGrounded && _frameVelocity.y <= 0f)
+        {
+            _frameVelocity.y = _moveStats.GroundingForce;
+        }
+        else
+        {
+            var inAirGravity = _moveStats.FallAcceleration;
+            if (_endedJumpEarly && _frameVelocity.y > 0) inAirGravity *= _moveStats.JumpEndEarlyGravityModifier;
+            _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_moveStats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
+        }
+    }
+
+    #endregion
 }
