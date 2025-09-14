@@ -4,6 +4,7 @@
  *  Created By: Eduardo Jr Garza
  */
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour
     public Vector2 linearVelocity => _rb.linearVelocity; // Expose _rb.linearVelocity for PlayerAnimation
     public bool IsGrounded { get; private set; }
 
+    public event Action OnAttack;
+
     private float _time;
 
     void Awake()
@@ -52,6 +55,8 @@ public class PlayerController : MonoBehaviour
 
         ApplyMovement();
     }
+
+    #region Movement
 
     private void HandleMovement()
     {
@@ -76,6 +81,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
+
+    #endregion
 
     #region Jumping
 
@@ -128,6 +135,19 @@ public class PlayerController : MonoBehaviour
             _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_moveStats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
         }
     }
+
+    #endregion
+
+    #region Attack
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnAttack?.Invoke();
+        }
+    }
+
 
     #endregion
 }

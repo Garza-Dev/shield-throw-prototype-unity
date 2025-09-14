@@ -25,7 +25,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ThrowShield",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "1a27aa56-f248-458b-954b-a3c0d5e6c287",
                     "expectedControlType": "",
@@ -139,18 +139,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ThrowShield",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee718048-f5d3-4386-9f95-94287f4e2907",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ThrowShield",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
